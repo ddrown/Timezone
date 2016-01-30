@@ -9,7 +9,9 @@
  * San Francisco, California, 94105, USA.                               *
  *----------------------------------------------------------------------*/
 
+#ifdef __AVR__
 #include <avr/eeprom.h>
+#endif
 #include "Timezone.h"
 
 /*----------------------------------------------------------------------*
@@ -182,9 +184,11 @@ time_t Timezone::toTime_t(TimeChangeRule r, int yr)
  *----------------------------------------------------------------------*/
 void Timezone::readRules(int address)
 {
+#ifdef __AVR__
     eeprom_read_block((void *) &_dst, (void *) address, sizeof(_dst));
     address += sizeof(_dst);
     eeprom_read_block((void *) &_std, (void *) address, sizeof(_std));
+#endif
 }
 
 /*----------------------------------------------------------------------*
@@ -193,7 +197,9 @@ void Timezone::readRules(int address)
  *----------------------------------------------------------------------*/
 void Timezone::writeRules(int address)
 {
+#ifdef __AVR__
     eeprom_write_block((void *) &_dst, (void *) address, sizeof(_dst));
     address += sizeof(_dst);
     eeprom_write_block((void *) &_std, (void *) address, sizeof(_std));
+#endif
 }
